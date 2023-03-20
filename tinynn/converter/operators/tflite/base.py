@@ -225,6 +225,7 @@ class Tensor(object):
                     self.tensor = self.tensor.view(np.uint8) + 128
                     self.quantization = QuantizationParameters(tensor.q_scale(), asym_s8_offset + 128)
                 else:
+                    self.tensor = np.maximum(self.tensor, -127)
                     if tensor.qscheme() in (torch.per_tensor_symmetric, torch.per_tensor_affine):
                         self.quantization = QuantizationParameters(tensor.q_scale(), tensor.q_zero_point())
                     else:
